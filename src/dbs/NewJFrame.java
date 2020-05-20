@@ -330,7 +330,7 @@ public class NewJFrame extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Value of GD set to " + checkGD);
                     }
                     else if(GD < maxLD){
-                        JOptionPane.showMessageDialog(null, "New value of GD is lesser than maximum localdepth of a bucket. Enter value greater than r equal to " + maxLD);
+                        JOptionPane.showMessageDialog(null, "New value of GD is lesser than maximum localdepth of a bucket. Enter value greater than or equal to " + maxLD);
                         jTextField_SetGD.setText(checkGD + "");
                     }
                     else{
