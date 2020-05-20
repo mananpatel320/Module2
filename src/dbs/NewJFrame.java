@@ -23,6 +23,9 @@ public class NewJFrame extends javax.swing.JFrame {
     public static int checkBFR;
     public static int checkGD;
     public static int flag;
+    public static int[] allKeys = new int[100000];
+    public static int length = 0;
+    public static int maxLD = 0;
     
     public NewJFrame() {
         this.setTitle("DBS Module 2");
@@ -293,9 +296,12 @@ public class NewJFrame extends javax.swing.JFrame {
                                     }        
                                     if( t.searchTable(keys[i]) >= 0 ){
                                         JOptionPane.showMessageDialog(null, keys[i] + " added only once in database");
+                                       
                                     }    
                                     else{       
                                             t.addElement(keys[i]);
+                                            allKeys[length] = keys[i];
+                                            length++;
                                             t.showTable();
                                     }
                     }
@@ -316,15 +322,29 @@ public class NewJFrame extends javax.swing.JFrame {
                 int GD = Integer.parseInt(gd);
                 if(GD <= 0 || GD > 25){
                     JOptionPane.showMessageDialog(null, "Value of GD should from to 1 and 25");
+                    jTextField_SetGD.setText(checkGD + "");
                 }
                 else{
                     if(checkGD == -999){
                         checkGD = GD;
                         JOptionPane.showMessageDialog(null, "Value of GD set to " + checkGD);
                     }
-                    else{
-                        JOptionPane.showMessageDialog(null, "GD value cannot be changed again");
+                    else if(GD < maxLD){
+                        JOptionPane.showMessageDialog(null, "New value of GD is lesser than maximum localdepth of a bucket. Enter value greater than r equal to " + maxLD);
                         jTextField_SetGD.setText(checkGD + "");
+                    }
+                    else{
+                        checkGD = GD;
+                        JOptionPane.showMessageDialog(null, "Value of GD set to " + checkGD + " and table updated succesfully.");
+                        table = (DefaultTableModel) NewJFrame.jTable1.getModel();
+                        table.setRowCount(0);
+                        t = null;
+                        t = new Table(checkGD);
+                        maxLD = 0;
+                        for(int i=0;i<length;i++){
+                            t.addElement(allKeys[i]);
+                            t.showTable();
+                        }
                     }
                 }
                 } catch(HeadlessException | NumberFormatException e){
@@ -350,8 +370,18 @@ public class NewJFrame extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Value of BFR set to " + checkBFR);
                     }
                     else{
-                        JOptionPane.showMessageDialog(null, "BFR value cannot be changed again");
+                        checkBFR = BFR;
+                        JOptionPane.showMessageDialog(null, "Value of BFR set to " + checkBFR + " and table updated succesfully.");
                         jTextField_SetBFR.setText(checkBFR + "");
+                        table = (DefaultTableModel) NewJFrame.jTable1.getModel();
+                        table.setRowCount(0);
+                        t = null;
+                        t = new Table(checkGD);
+                        maxLD = 0;
+                        for(int i=0;i<length;i++){
+                            t.addElement(allKeys[i]);
+                            t.showTable();
+                        }
                     }
                 }
                 } catch(HeadlessException | NumberFormatException e){
@@ -399,6 +429,8 @@ public class NewJFrame extends javax.swing.JFrame {
         checkBFR = -999;
         checkGD = -999;
         flag = 0;
+        length = 0;
+        maxLD = 0;
         table = (DefaultTableModel) NewJFrame.jTable1.getModel();
         table.setRowCount(0);
         t = null;

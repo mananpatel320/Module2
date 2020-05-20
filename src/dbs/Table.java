@@ -142,15 +142,16 @@ public class Table{
 				if(bucks[i].getCluster() < i){
 					System.out.print("Bucket same as " + bucks[i].getCluster());
                                         Object[] data = {"(" + i + ") " + input1,"Bucket same as " + bucks[i].getCluster(),bucks[i].getLocalDepth()};
-                                        
-                                        
+                                        if(NewJFrame.maxLD < bucks[i].getLocalDepth())
+                                            NewJFrame.maxLD = bucks[i].getLocalDepth();
                                         NewJFrame.table.addRow(data);
                                         table.fireTableDataChanged();
                                 }
 				else{
 					System.out.print(bucks[i].showBucket());
                                         Object[] data = {"(" + i + ") " + input1,bucks[i].showBucket(),bucks[i].getLocalDepth()};
-                                        
+                                        if(NewJFrame.maxLD < bucks[i].getLocalDepth())
+                                            NewJFrame.maxLD = bucks[i].getLocalDepth();
                                         NewJFrame.table.addRow(data);
                                         table.fireTableDataChanged();
 				}
